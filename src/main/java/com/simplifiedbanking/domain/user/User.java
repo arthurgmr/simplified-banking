@@ -1,6 +1,7 @@
 package com.simplifiedbanking.domain.user;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private long id;
+  private UUID id;
 
   private String firstName;
 
