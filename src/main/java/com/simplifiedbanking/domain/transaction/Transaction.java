@@ -2,6 +2,7 @@ package com.simplifiedbanking.domain.transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.simplifiedbanking.domain.user.User;
 
@@ -27,7 +28,7 @@ public class Transaction {
   
    @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private long id;
+  private UUID id;
 
   private BigDecimal amount;
 
