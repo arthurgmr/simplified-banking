@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.simplifiedbanking.domain.user.User;
 import com.simplifiedbanking.domain.user.UserType;
 import com.simplifiedbanking.dtos.UserDTO;
+import com.simplifiedbanking.infra.exceptions.UserNotFoundException;
 import com.simplifiedbanking.repositories.UserRepository;
 
 @Service
@@ -31,7 +32,7 @@ public class UserService {
   }
 
   public User findUserById(UUID id) throws Exception {
-    return this.repository.findById(id).orElseThrow(() -> new Exception("User not found."));
+    return this.repository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
   }
 
   public User createUser(UserDTO data) {
