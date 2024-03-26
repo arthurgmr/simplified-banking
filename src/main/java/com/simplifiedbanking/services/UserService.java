@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.simplifiedbanking.domain.user.User;
 import com.simplifiedbanking.domain.user.UserType;
 import com.simplifiedbanking.dtos.UserDTO;
+import com.simplifiedbanking.infra.exceptions.UnauthorizedTransactionException;
 import com.simplifiedbanking.infra.exceptions.UserNotFoundException;
 import com.simplifiedbanking.repositories.UserRepository;
 
@@ -20,14 +21,14 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
-  public void validateTransaction(User sender, BigDecimal amount) throws Exception {
+  public void validateTransaction(User sender, BigDecimal amount) throws UnauthorizedTransactionException {
     
     if (sender.getUserType() == UserType.MERCHANT) {
-      throw new Exception("Merchant user doesn't have authorization to make transactions.");
+      throw new UnauthorizedTransactionException("Merchant user doesn't have authorization to make transactions.");
     }
 
     if (sender.getBalance().compareTo(amount) < 0) {
-      throw new Exception("Insufficient balance.");
+      throw new UnauthorizedTransactionException("Insufficient balance.");
     }
   }
 

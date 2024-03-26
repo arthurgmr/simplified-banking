@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.simplifiedbanking.domain.transaction.Transaction;
 import com.simplifiedbanking.domain.user.User;
 import com.simplifiedbanking.dtos.TransactionDTO;
+import com.simplifiedbanking.infra.exceptions.UnauthorizedTransactionException;
 import com.simplifiedbanking.repositories.TransactionRepository;
 
 @Service
@@ -37,12 +38,12 @@ public class TransactionService {
   public Transaction createTransaction (TransactionDTO transaction) throws Exception {
     User sender = this.userService.findUserById(transaction.senderId());
     User receiver = this.userService.findUserById(transaction.receiverId());
-
+    
     userService.validateTransaction(sender, transaction.value());
 
     boolean isAuthorized = this.authorizeTransaction(sender, transaction.value());
     if (!isAuthorized) {
-      throw new Exception("Transaction is not authorized.");
+      throw new UnauthorizedTransactionException("Transaction is not authorized.");
     }
 
     Transaction newTransaction = new Transaction();
